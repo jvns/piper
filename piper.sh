@@ -1,3 +1,4 @@
+#!/bin/bash
 
 ls /proc/*/fd/* -l \
   2> /dev/null \
