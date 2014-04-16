@@ -1,27 +1,34 @@
 piper
 =====
 
-`piper` is a command line tool that shows you a tree of all the processes on your system that write to or read from pipes.
+`piper` is a command line tool that shows you how the processes on your system are connected with pipes!
+
+*Why would I even want this?*
+
+Sometimes you have loggers on your system that communicate through pipes! You might want to know how they all fit together. This is more likely to be useful on a server than on your desktop. 
+
+(reality: I have no practical use for this yet. Possibly this is not actually useful.)
 
 **Example**
 
 In one terminal, run: `cat /dev/urandom | sed 's/2/3/g' > blah`. 
 
-Also imagine that you have a couple of other scripts that both send their output to a logger script. You can use `piper` to find out how all these processes are connected with pipes!
+Also imagine that you have pulseaudio and some other tools running on your system:
 
 Then run `piper`! 
 
-```
-$ ./piper
-cat /dev/urandom (2011) => sed 's/2/3/g' (2043)
+Here's what I get:
 
-ruby other_awesome_script.py (2343) ||
-                                    ||
-python awesome_script.py  (3425)    ==> some_logger_program (12312)
 ```
-
+$ ./piper.sh
+/usr/lib/pulseaudio/pulse/gconf-helper[2858] => /usr/bin/pulseaudio[2787]
+/usr/lib/speech-dispatcher-modules/sd_dummy[21265] => /usr/bin/speech-dispatcher[21267]
+/usr/lib/speech-dispatcher-modules/sd_espeak[21259] => /usr/bin/speech-dispatcher[21265]
+/usr/lib/speech-dispatcher-modules/sd_espeak[21259] => /usr/bin/speech-dispatcher[21267]
+cat[23526] => sed[23527]
+```
 
 Todo
 ====
 
-As you may have noticed, this project doesn't exist! If such a thing already exists, tell me! Or write it!
+Make this better than a hacked-together bash script.
